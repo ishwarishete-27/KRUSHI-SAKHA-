@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Krushi Sakha — Field Advisory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#E4EFD6; --paper:#FBFCF6; --ink:#233821;
+  --green:#3B6B3E; --green-deep:#1E3D24; --moss:#6E9A54;
+  --clay:#8B5E3C; --clay-deep:#5E3E27;
+  --amber:#B9812E; --rust:#B5533C;
+  --line: rgba(30,61,36,.16);
+  --shadow: 0 10px 30px rgba(20,40,20,.12);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:inherit}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --cream:#132014; --paper:#1B2B1C; --ink:#E3EEDA; --line: rgba(227,238,218,.16); --shadow:0 10px 30px rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{ --cream:#132014; --paper:#1B2B1C; --ink:#E3EEDA; --line: rgba(227,238,218,.16); --shadow:0 10px 30px rgba(0,0,0,.5); }
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;color:var(--ink);font-family:'Inter','Noto Sans Devanagari',sans-serif;line-height:1.5;
+  background:
+    radial-gradient(700px 420px at 90% -8%, rgba(255,255,255,.35), transparent 60%),
+    radial-gradient(900px 500px at -10% 10%, rgba(59,107,62,.18), transparent 55%),
+    var(--cream);
+}
+h1,h2,h3{font-family:'Fraunces','Noto Sans Devanagari',serif;font-weight:600;margin:0;color:var(--green-deep)}
+:root[data-theme="dark"] h1, :root[data-theme="dark"] h2, :root[data-theme="dark"] h3{color:#CFE3C9}
+p{margin:0}
+.wrap{max-width:760px;margin:0 auto;padding:0 22px}
+header.top{display:flex;align-items:center;gap:12px;padding:18px 22px;position:sticky;top:0;background:rgba(251,252,246,.82);backdrop-filter:blur(8px);z-index:5;border-bottom:1px solid var(--line)}
+:root[data-theme="dark"] header.top{background:rgba(27,43,28,.82)}
+.crops{display:flex;flex-wrap:wrap;gap:8px}
+.cropchip{border:1px solid var(--line);background:var(--cream);border-radius:12px;padding:10px 8px;text-align:center;cursor:pointer;font-family:inherit;font-size:12.5px;color:var(--ink)}
+.cropchip .emoji{font-size:22px;display:block;margin-bottom:4px}
+.cropchip:hover{border-color:var(--moss)}
+.cropchip.active{border-color:var(--green);outline:2px solid var(--green);background:rgba(59,107,62,.1)}
+.logo{width:38px;height:38px;flex:none}
+.brand{font-family:'Fraunces',serif;font-weight:700;font-size:20px;color:var(--green-deep)}
+:root[data-theme="dark"] .brand{color:#CFE3C9}
+.langsel{margin-left:auto}
+.langsel select{padding:7px 10px;border-radius:8px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-family:inherit;font-size:13px}
+
+.hero{padding:54px 0 30px}
+.hero h1{font-size:clamp(28px,5vw,42px);line-height:1.2;max-width:18ch}
+.hero p.lead{margin-top:14px;max-width:58ch;font-size:17px;color:var(--ink);opacity:.85}
+.hero .note{margin-top:18px;font-size:14px;color:var(--clay-deep);background:rgba(139,94,60,.1);border:1px solid rgba(139,94,60,.25);padding:10px 14px;border-radius:10px;display:inline-block}
+:root[data-theme="dark"] .hero .note{color:#D9B98E;background:rgba(139,94,60,.18)}
+
+section{padding:26px 0}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:var(--shadow)}
+.panel + .panel{margin-top:18px}
+.panel h2{font-size:22px;margin-bottom:6px}
+.sub{font-size:14px;color:var(--ink);opacity:.7;margin-bottom:16px}
+
+.samples{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px}
+.sample{border:1px solid var(--line);background:var(--cream);border-radius:12px;padding:10px 6px 8px;text-align:center;cursor:pointer;font-family:inherit;font-size:12px;color:var(--ink)}
+.sample:hover{border-color:var(--moss)}
+.sample.active{border-color:var(--green);outline:2px solid var(--green);background:rgba(59,107,62,.08)}
+.leaf-icon{width:40px;height:40px;margin:0 auto 6px;border-radius:50%;position:relative;overflow:hidden}
+.leaf-icon svg{width:100%;height:100%}
+.spotoverlay{position:absolute;inset:0;background-image:radial-gradient(circle at 30% 35%,rgba(60,40,20,.55) 0 4px, transparent 5px),radial-gradient(circle at 65% 55%,rgba(60,40,20,.5) 0 3px, transparent 4px),radial-gradient(circle at 45% 75%,rgba(60,40,20,.5) 0 3px, transparent 4px)}
+.holeoverlay{position:absolute;inset:0;background-image:radial-gradient(circle at 35% 40%,var(--cream) 0 3px, transparent 4px),radial-gradient(circle at 60% 60%,var(--cream) 0 3px, transparent 4px)}
+.bluroverlay{position:absolute;inset:0;backdrop-filter:blur(1.5px);background:rgba(120,120,110,.25)}
+
+.upload-row{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+input[type=file]{font-size:13px}
+.divider{display:flex;align-items:center;gap:10px;margin:18px 0;font-size:12px;color:var(--ink);opacity:.5}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--line)}
+
+label.field{display:block;margin-top:16px;font-size:14px;font-weight:600}
+select, input[type=range]{width:100%;margin-top:6px}
+select{padding:9px 10px;border-radius:8px;border:1px solid var(--line);background:var(--cream);color:var(--ink);font-family:inherit;font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:13px;cursor:pointer;background:var(--cream);user-select:none}
+.chip input{display:none}
+.chip.checked{background:var(--green);color:#fff;border-color:var(--green)}
+
+.analyze-btn{margin-top:22px;width:100%;padding:14px;border:none;border-radius:12px;background:var(--green-deep);color:#fff;font-family:'Fraunces','Noto Sans Devanagari',serif;font-size:17px;font-weight:600;cursor:pointer}
+.analyze-btn:active{transform:translateY(1px)}
+.analyze-btn:disabled{opacity:.5;cursor:not-allowed}
+
+#result{display:none}
+.verdict-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.verdict-name{font-size:22px}
+.badge{font-size:12px;padding:5px 10px;border-radius:999px;font-weight:600;white-space:nowrap}
+.badge.ok{background:rgba(59,107,62,.15);color:var(--green-deep)}
+.badge.warn{background:rgba(181,83,60,.15);color:var(--rust)}
+.confbar{height:8px;border-radius:99px;background:var(--line);margin:14px 0 4px;overflow:hidden}
+.confbar > div{height:100%;background:var(--green)}
+.confbar.warn > div{background:var(--rust)}
+.conflabel{font-size:12px;opacity:.7}
+.explain{margin-top:14px;font-size:15px;line-height:1.6}
+.actions{margin-top:14px}
+.actions p.label{font-size:13px;font-weight:600;margin-bottom:6px;opacity:.75}
+.actions ul{margin:0;padding-left:20px}
+.actions li{margin-bottom:5px;font-size:14.5px}
+
+.expert-card{margin-top:18px;padding:16px;border-radius:12px;border:1px solid rgba(181,83,60,.3);background:rgba(181,83,60,.07)}
+.expert-card p.who{font-weight:600;margin-bottom:2px}
+.expert-card p.role{font-size:13px;opacity:.75;margin-bottom:10px}
+.expert-card a.call{display:inline-block;margin-top:4px;background:var(--rust);color:#fff;text-decoration:none;padding:9px 16px;border-radius:8px;font-size:14px;font-weight:600}
+
+.disclaimer{font-size:13px;opacity:.65;margin-top:22px;border-top:1px solid var(--line);padding-top:16px}
+footer{padding:30px 0 calc(30px + env(safe-area-inset-bottom,0px));text-align:center;font-size:13px;opacity:.55}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <svg class="logo" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="#FDF8F0" stroke="#6B4226" stroke-width="7"/><path d="M60 27 C90 30,104 54,96 82 C88 106,63 110,38 98 C28 76,36 46,60 27 Z" fill="#3F7D4A"/><path d="M60 32 C64 54,60 82,42 96" fill="none" stroke="#25462A" stroke-width="3" stroke-linecap="round"/></svg>
+  <span class="brand">Krushi Sakha</span>
+  <span class="langsel">
+    <select id="langSelect" aria-label="Language">
+      <option value="en">English</option>
+      <option value="hi">हिंदी</option>
+      <option value="mr">मराठी</option>
+    </select>
+  </span>
+</header>
+
+<div class="wrap">
+  <section class="hero">
+    <h1 id="heroTitle"></h1>
+    <p class="lead" id="heroLead"></p>
+    <span class="note" id="heroNote"></span>
+  </section>
+
+  <section>
+    <div class="panel">
+      <h2 id="stepCropTitle"></h2>
+      <p class="sub" id="stepCropSub"></p>
+      <div class="crops" id="crops"></div>
+    </div>
+
+    <div class="panel">
+      <h2 id="step1Title"></h2>
+      <p class="sub" id="step1Sub"></p>
+      <div class="samples" id="samples"></div>
+      <div class="divider" id="orUpload"></div>
+      <div class="upload-row">
+        <input type="file" id="fileInput" accept="image/*">
+        <span id="fileStatus" class="sub" style="margin:0"></span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2 id="step2Title"></h2>
+      <p class="sub" id="step2Sub"></p>
+
+      <label class="field" for="rainfall" id="rainfallLabel"></label>
+      <select id="rainfall">
+        <option value="none" id="rNone"></option>
+        <option value="light" id="rLight"></option>
+        <option value="normal" selected id="rNormal"></option>
+        <option value="heavy" id="rHeavy"></option>
+      </select>
+
+      <label class="field" for="humidity"><span id="humidityLabel"></span>: <span id="humidityVal">55</span>%</label>
+      <input type="range" id="humidity" min="10" max="95" value="55">
+
+      <label class="field" id="symptomsLabel"></label>
+      <div class="chips" id="symptoms">
+        <label class="chip"><input type="checkbox" value="yellow"><span data-chip="yellow"></span></label>
+        <label class="chip"><input type="checkbox" value="spot"><span data-chip="spot"></span></label>
+        <label class="chip"><input type="checkbox" value="wilt"><span data-chip="wilt"></span></label>
+        <label class="chip"><input type="checkbox" value="holes"><span data-chip="holes"></span></label>
+        <label class="chip"><input type="checkbox" value="stunt"><span data-chip="stunt"></span></label>
+      </div>
+
+      <button class="analyze-btn" id="analyzeBtn" disabled></button>
+    </div>
+
+    <div class="panel" id="result">
+      <div class="verdict-head">
+        <h2 class="verdict-name" id="vName"></h2>
+        <span class="badge" id="vBadge"></span>
+      </div>
+      <div class="confbar" id="confbar"><div id="confbarfill"></div></div>
+      <p class="conflabel" id="confLabel"></p>
+      <p class="explain" id="vExplain"></p>
+      <div class="actions">
+        <p class="label" id="actionsLabel"></p>
+        <ul id="vActions"></ul>
+      </div>
+      <div class="expert-card" id="expertCard" style="display:none">
+        <p class="who" id="expertWho"></p>
+        <p class="role" id="expertRole"></p>
+        <p style="font-size:14px" id="expertNote"></p>
+        <a class="call" id="callBtn" href="tel:+919876543210"></a>
+      </div>
+      <p class="disclaimer" id="disclaimer"></p>
+    </div>
+  </section>
+</div>
+
+<footer id="footer"></footer>
+
+<script>
+const leafSVG = (fill) => `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="var(--cream)"/><path d="M50 18 C78 21,90 42,83 66 C76 88,54 92,32 82 C24 64,30 38,50 18 Z" fill="${fill}"/></svg>`;
+const SAMPLE_ICON = {
+  healthy: leafSVG('#4C8C4A'),
+  blight: leafSVG('#7E9A55')+'<div class="spotoverlay"></div>',
+  nutrient: leafSVG('#C7B23A'),
+  water: leafSVG('#B99A3E'),
+  pest: leafSVG('#4C8C4A')+'<div class="holeoverlay"></div>',
+  poor: leafSVG('#8E9A6A')+'<div class="bluroverlay"></div>'
+};
+const SAMPLE_VISUAL = {
+  healthy:{yellow:.05,spot:.03,wilt:.05,holes:.02,quality:.92},
+  blight:{yellow:.2,spot:.78,wilt:.12,holes:.03,quality:.88},
+  nutrient:{yellow:.72,spot:.04,wilt:.08,holes:.02,quality:.88},
+  water:{yellow:.5,spot:.05,wilt:.6,holes:.02,quality:.85},
+  pest:{yellow:.12,spot:.08,wilt:.08,holes:.68,quality:.88},
+  poor:{yellow:.4,spot:.32,wilt:.28,holes:.1,quality:.22}
+};
+const SAMPLE_ORDER = ['healthy','blight','nutrient','water','pest','poor'];
+const CROP_ORDER = ['tomato','potato','chili','brinjal','onion','mango','banana'];
+const CROP_EMOJI = {tomato:'🍅',potato:'🥔',chili:'🌶️',brinjal:'🍆',onion:'🧅',mango:'🥭',banana:'🍌'};
+
+const I18N = {
+en:{
+  heroTitle:'One photo rarely tells the whole story',
+  heroLead:"A yellow leaf can mean disease, pests, hunger, or thirst. Krushi Sakha reads the picture alongside your field's own conditions — rainfall, humidity, what you've already noticed — before it says what it thinks is wrong.",
+  heroNote:'Try it: pick "Yellowing leaf" below, analyze it with rainfall set to Normal, then switch rainfall to None and analyze again — the verdict changes.',
+  stepCropTitle:'1. Which crop is this?', stepCropSub:"Krushi Sakha works across multiple crops, not just one",
+  crops:{tomato:'Tomato',potato:'Potato',chili:'Chili',brinjal:'Brinjal',onion:'Onion',mango:'Mango',banana:'Banana'},
+  step1Title:'2. Choose a leaf', step1Sub:'Use a sample, or upload your own field photo', orUpload:'or upload a photo',
+  step2Title:'3. Tell us about the field', step2Sub:'This context is what lets Krushi Sakha tell similar-looking symptoms apart',
+  rainfallLabel:'Rainfall this week', rain:{none:'None — dry spell',light:'Light',normal:'Normal',heavy:'Heavy'},
+  humidityLabel:'Humidity', symptomsLabel:'What have you noticed? (optional — reinforces the photo)',
+  chips:{yellow:'Yellowing leaves',spot:'Brown/dark spots',wilt:'Wilting or drooping',holes:'Holes or chewed edges',stunt:'Stunted growth'},
+  analyze:'Analyze', confidence:'Confidence',
+  badgeOk:'Confident assessment', badgeWarn:'Needs expert review',
+  actionsDefault:'Recommended next step', actionsWarn:"Leading possibility — don't treat yet",
+  expertWho:'Dr. Ramesh Patil', expertRole:'Agriculture Extension Officer · Mon–Sat, 9am–6pm',
+  expertNote:"The photo and field conditions don't clearly agree — confirming with an expert before treating is the safer step.",
+  callBtn:'📞 Call +91 98765 43210',
+  disclaimer:'This is guidance based on the photo and the details you entered — not a yield or crop-loss estimate. For treatment decisions with real cost at stake, confirm with a local expert.',
+  footer:'Krushi Sakha · Tomato crop advisory demo',
+  samples:{healthy:'Healthy',blight:'Spotted leaf',nutrient:'Yellowing leaf',water:'Wilting leaf',pest:'Chewed leaf',poor:'Blurry photo'},
+  rainCtx:{none:'very low this week',light:'light this week',normal:'normal',heavy:'heavy'},
+  causes:{
+    healthy:{name:'Healthy plant', explain:()=>"The leaf shows even, strong colour with no spotting, wilting or holes, and nothing you entered about the field points to stress either.", actions:["Keep your current watering and care routine","Check again in about a week"]},
+    blight:{name:'Likely fungal disease (early blight)', explain:ctx=>`Dark, irregular spotting is visible, and humidity is around ${ctx.humidity}% — fungal disease spreads fastest in warm, humid air, which fits what's showing here.`, actions:["Remove and destroy the affected leaves","Apply a fungicide suited to early blight","Water at the base, not over the leaves"]},
+    nutrient:{name:'Likely nutrient deficiency', explain:(ctx,rl)=>`The leaf is yellowing with no spotting or wilting, and rainfall has been ${rl} — when watering isn't the issue, yellowing like this usually points to a nutrient gap, often nitrogen.`, actions:["Apply a balanced, nitrogen-rich fertiliser","Recheck 7–10 days after feeding"]},
+    water:{name:'Likely water stress', explain:(ctx,rl)=>`The leaf is yellowing and wilting together, and rainfall has been ${rl} — that combination points to the roots not getting enough water.`, actions:["Water more frequently, especially through dry spells","Check soil moisture at root depth before the next watering"]},
+    pest:{name:'Likely pest damage', explain:()=>"Holes and chewed edges point to pest feeding rather than disease or a water/nutrient issue.", actions:["Check the underside of leaves for insects","Use a pest-control step suited to what you find there"]}
+  }
+},
+hi:{
+  heroTitle:'एक फोटो पूरी कहानी नहीं बताता',
+  heroLead:'पीली पत्ती बीमारी, कीट, पोषण की कमी या पानी की कमी — किसी भी वजह से हो सकती है। Krushi Sakha फोटो के साथ आपके खेत की असली स्थिति — बारिश, नमी, आपने जो देखा — सब मिलाकर बताता है।',
+  heroNote:'आज़माएं: नीचे "पीली पत्ती" चुनें, बारिश "सामान्य" रखकर विश्लेषण करें, फिर बारिश "नहीं" पर बदलकर दोबारा विश्लेषण करें — नतीजा बदल जाएगा।',
+  stepCropTitle:'१. फसल कौन सी है?', stepCropSub:'Krushi Sakha सिर्फ एक नहीं, कई फसलों पर काम करता है',
+  crops:{tomato:'टमाटर',potato:'आलू',chili:'मिर्च',brinjal:'बैंगन',onion:'प्याज़',mango:'आम',banana:'केला'},
+  step1Title:'२. एक पत्ती चुनें', step1Sub:'नमूना इस्तेमाल करें, या अपने खेत की फोटो अपलोड करें', orUpload:'या फोटो अपलोड करें',
+  step2Title:'३. खेत के बारे में बताएं', step2Sub:'यही जानकारी Krushi Sakha को मिलते-जुलते लक्षणों में फर्क बताने में मदद करती है',
+  rainfallLabel:'इस हफ्ते बारिश', rain:{none:'नहीं — सूखा',light:'हल्की',normal:'सामान्य',heavy:'भारी'},
+  humidityLabel:'नमी', symptomsLabel:'आपने क्या देखा है? (वैकल्पिक — फोटो को पुष्ट करता है)',
+  chips:{yellow:'पीली पत्तियां',spot:'भूरे/काले धब्बे',wilt:'मुरझाना या झुकना',holes:'छेद या कटे किनारे',stunt:'बढ़वार रुकना'},
+  analyze:'विश्लेषण करें', confidence:'विश्वास स्तर',
+  badgeOk:'पक्का आकलन', badgeWarn:'विशेषज्ञ की राय ज़रूरी',
+  actionsDefault:'अगला कदम', actionsWarn:'संभावित कारण — अभी इलाज न करें',
+  expertWho:'डॉ. रमेश पाटिल', expertRole:'कृषि विस्तार अधिकारी · सोम–शनि, सुबह ९ – शाम ६',
+  expertNote:'फोटो और खेत की स्थिति पूरी तरह मेल नहीं खा रही — इलाज से पहले विशेषज्ञ से पुष्टि करना सुरक्षित है।',
+  callBtn:'📞 कॉल करें +91 98765 43210',
+  disclaimer:'यह सलाह फोटो और आपकी दी गई जानकारी पर आधारित है — यह उपज या नुकसान का अनुमान नहीं है। बड़े खर्च वाले फैसलों के लिए स्थानीय विशेषज्ञ से पुष्टि करें।',
+  footer:'Krushi Sakha · टमाटर फसल सलाह डेमो',
+  samples:{healthy:'स्वस्थ',blight:'धब्बेदार पत्ती',nutrient:'पीली पत्ती',water:'मुरझाई पत्ती',pest:'कटी पत्ती',poor:'धुंधली फोटो'},
+  rainCtx:{none:'बहुत कम',light:'हल्की',normal:'सामान्य',heavy:'भारी'},
+  causes:{
+    healthy:{name:'स्वस्थ पौधा', explain:()=>'पत्ती का रंग एक समान और मज़बूत है, कोई धब्बा, मुरझाना या छेद नहीं है — और आपकी दी गई जानकारी में भी तनाव का कोई संकेत नहीं है।', actions:['पानी और देखभाल का मौजूदा तरीका जारी रखें','एक हफ्ते बाद दोबारा जांचें']},
+    blight:{name:'संभावित फफूंद रोग (अर्ली ब्लाइट)', explain:ctx=>`गहरे, बेढंगे धब्बे दिख रहे हैं, और नमी लगभग ${ctx.humidity}% है — गर्म, नम मौसम में फफूंद रोग सबसे तेज़ फैलता है, जो यहां दिख रहे लक्षणों से मेल खाता है।`, actions:['प्रभावित पत्तियों को हटाकर नष्ट करें','अर्ली ब्लाइट के लिए उपयुक्त फफूंदनाशक डालें','ऊपर से नहीं, जड़ में पानी दें']},
+    nutrient:{name:'संभावित पोषण की कमी', explain:(ctx,rl)=>`पत्ती बिना धब्बे या मुरझाए पीली हो रही है, और बारिश ${rl} रही है — जब पानी की कमी नहीं है, तो ऐसा पीलापन आमतौर पर पोषण की कमी, अक्सर नाइट्रोजन, की ओर इशारा करता है।`, actions:['संतुलित, नाइट्रोजन युक्त खाद डालें','खाद देने के ७–१० दिन बाद दोबारा जांचें']},
+    water:{name:'संभावित पानी की कमी', explain:(ctx,rl)=>`पत्ती पीली भी हो रही है और मुरझा भी रही है, और बारिश ${rl} रही है — यह मेल जड़ों तक पानी न पहुंचने की ओर इशारा करता है।`, actions:['सूखे समय में पानी अधिक बार दें','अगली सिंचाई से पहले जड़ की गहराई पर मिट्टी की नमी जांचें']},
+    pest:{name:'संभावित कीट नुकसान', explain:()=>'पत्ती पर छेद और कटे किनारे बीमारी या पानी/पोषण की समस्या के बजाय कीट के खाने का संकेत देते हैं।', actions:['पत्तियों के नीचे कीट जांचें','जो कीट मिले उसके लिए उपयुक्त उपाय करें']}
+  }
+},
+mr:{
+  heroTitle:'एक फोटो संपूर्ण कहाणी सांगत नाही',
+  heroLead:'पिवळे पान रोग, कीड, अन्नद्रव्यांची कमतरता किंवा पाण्याच्या कमतरतेमुळे असू शकते. Krushi Sakha फोटोसोबत तुमच्या शेतातील खरी परिस्थिती — पाऊस, आर्द्रता, तुम्ही पाहिलेलं — एकत्र करून सांगतं.',
+  heroNote:'करून पहा: खाली "पिवळं पान" निवडा, पाऊस "सामान्य" ठेवून विश्लेषण करा, नंतर पाऊस "नाही" वर बदलून पुन्हा विश्लेषण करा — निकाल बदलेल.',
+  stepCropTitle:'१. कोणते पीक आहे?', stepCropSub:'Krushi Sakha फक्त एका नव्हे, अनेक पिकांसाठी काम करतं',
+  crops:{tomato:'टोमॅटो',potato:'बटाटा',chili:'मिरची',brinjal:'वांगं',onion:'कांदा',mango:'आंबा',banana:'केळं'},
+  step1Title:'२. एक पान निवडा', step1Sub:'नमुना वापरा, किंवा तुमच्या शेतातील फोटो अपलोड करा', orUpload:'किंवा फोटो अपलोड करा',
+  step2Title:'३. शेताबद्दल सांगा', step2Sub:'हीच माहिती Krushi Sakha ला सारख्या दिसणाऱ्या लक्षणांमध्ये फरक ओळखायला मदत करते',
+  rainfallLabel:'या आठवड्यातील पाऊस', rain:{none:'नाही — कोरडा हंगाम',light:'हलका',normal:'सामान्य',heavy:'जास्त'},
+  humidityLabel:'आर्द्रता', symptomsLabel:'तुम्ही काय पाहिलं आहे? (ऐच्छिक — फोटोला पुष्टी देतं)',
+  chips:{yellow:'पिवळी पाने',spot:'तपकिरी/काळे डाग',wilt:'कोमेजणे किंवा लटकणे',holes:'छिद्रे किंवा कापलेल्या कडा',stunt:'वाढ खुंटणे'},
+  analyze:'विश्लेषण करा', confidence:'विश्वासार्हता',
+  badgeOk:'खात्रीशीर निष्कर्ष', badgeWarn:'तज्ञांचा सल्ला आवश्यक',
+  actionsDefault:'पुढील पायरी', actionsWarn:'शक्य कारण — अजून उपचार करू नका',
+  expertWho:'डॉ. रमेश पाटील', expertRole:'कृषी विस्तार अधिकारी · सोम–शनि, सकाळी ९ – संध्याकाळी ६',
+  expertNote:'फोटो आणि शेतातील परिस्थिती पूर्णपणे जुळत नाही — उपचार करण्यापूर्वी तज्ञांकडून खात्री करणं सुरक्षित आहे.',
+  callBtn:'📞 कॉल करा +91 98765 43210',
+  disclaimer:'हा सल्ला फोटो आणि तुम्ही दिलेल्या माहितीवर आधारित आहे — हे उत्पन्न किंवा नुकसानाचा अंदाज नाही. मोठ्या खर्चाच्या निर्णयांसाठी स्थानिक तज्ञांकडून खात्री करा.',
+  footer:'Krushi Sakha · टोमॅटो पीक सल्ला डेमो',
+  samples:{healthy:'निरोगी',blight:'डाग असलेलं पान',nutrient:'पिवळं पान',water:'कोमेजलेलं पान',pest:'कापलेलं पान',poor:'अस्पष्ट फोटो'},
+  rainCtx:{none:'खूप कमी',light:'हलका',normal:'सामान्य',heavy:'जास्त'},
+  causes:{
+    healthy:{name:'निरोगी रोप', explain:()=>'पानाचा रंग एकसमान आणि मजबूत आहे, कोणतेही डाग, कोमेजणे किंवा छिद्रे नाहीत — आणि तुम्ही दिलेल्या माहितीतही ताणाचा संकेत नाही.', actions:['सध्याची पाणी आणि काळजी पद्धत सुरू ठेवा','एका आठवड्यानंतर पुन्हा तपासा']},
+    blight:{name:'शक्य बुरशीजन्य रोग (अर्ली ब्लाइट)', explain:ctx=>`गडद, अनियमित डाग दिसत आहेत, आणि आर्द्रता सुमारे ${ctx.humidity}% आहे — उष्ण, दमट हवामानात बुरशीजन्य रोग सर्वात वेगाने पसरतो, जे इथे दिसणाऱ्या लक्षणांशी जुळतं.`, actions:['बाधित पाने काढून नष्ट करा','अर्ली ब्लाइटसाठी योग्य बुरशीनाशक फवारा','वरून नाही, मुळाशी पाणी द्या']},
+    nutrient:{name:'शक्य अन्नद्रव्यांची कमतरता', explain:(ctx,rl)=>`पान डाग किंवा कोमेजल्याशिवाय पिवळं पडत आहे, आणि पाऊस ${rl} आहे — पाण्याची कमतरता नसताना असं पिवळेपण साधारणपणे अन्नद्रव्यांच्या कमतरतेकडे, अनेकदा नायट्रोजनकडे, निर्देश करतं.`, actions:['संतुलित, नायट्रोजनयुक्त खत द्या','खत दिल्यानंतर ७–१० दिवसांनी पुन्हा तपासा']},
+    water:{name:'शक्य पाण्याचा ताण', explain:(ctx,rl)=>`पान पिवळं पडत आहे आणि कोमेजतही आहे, आणि पाऊस ${rl} आहे — हे मिश्रण मुळांना पुरेसं पाणी न मिळाल्याकडे निर्देश करतं.`, actions:['कोरड्या काळात पाणी जास्त वेळा द्या','पुढील पाणी देण्यापूर्वी मुळाच्या खोलीवरील मातीतील ओलावा तपासा']},
+    pest:{name:'शक्य कीड नुकसान', explain:()=>'पानावरील छिद्रे आणि कापलेल्या कडा रोग किंवा पाणी/अन्नद्रव्यांच्या समस्येऐवजी कीड खाल्ल्याचं दर्शवतात.', actions:['पानांच्या खालच्या बाजूला कीड तपासा','सापडलेल्या किडीसाठी योग्य उपाय करा']}
+  }
+}
+};
+
+let currentLang = 'en';
+let currentVisual = null, currentSampleId = null, currentCrop = 'tomato';
+
+function buildCrops(){
+  const el = document.getElementById('crops'); el.innerHTML='';
+  CROP_ORDER.forEach(id=>{
+    const btn = document.createElement('button');
+    btn.className='cropchip'+(currentCrop===id?' active':''); btn.type='button';
+    btn.innerHTML = `<span class="emoji">${CROP_EMOJI[id]}</span>${I18N[currentLang].crops[id]}`;
+    btn.addEventListener('click', ()=>{
+      currentCrop = id;
+      document.querySelectorAll('.cropchip').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+    el.appendChild(btn);
+  });
+}
+
+function buildSamples(){
+  const el = document.getElementById('samples'); el.innerHTML='';
+  SAMPLE_ORDER.forEach(id=>{
+    const btn = document.createElement('button');
+    btn.className='sample'+(currentSampleId===id?' active':''); btn.type='button';
+    btn.innerHTML = `<div class="leaf-icon">${SAMPLE_ICON[id]}</div>${I18N[currentLang].samples[id]}`;
+    btn.addEventListener('click', ()=>{
+      currentSampleId = id; currentVisual = SAMPLE_VISUAL[id];
+      document.querySelectorAll('.sample').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('fileStatus').textContent='';
+      document.getElementById('analyzeBtn').disabled=false;
+    });
+    el.appendChild(btn);
+  });
+}
+
+function applyLang(){
+  const t = I18N[currentLang];
+  document.documentElement.lang = currentLang;
+  document.getElementById('heroTitle').textContent=t.heroTitle;
+  document.getElementById('heroLead').textContent=t.heroLead;
+  document.getElementById('heroNote').textContent=t.heroNote;
+  document.getElementById('stepCropTitle').textContent=t.stepCropTitle;
+  document.getElementById('stepCropSub').textContent=t.stepCropSub;
+  buildCrops();
+  document.getElementById('step1Title').textContent=t.step1Title;
+  document.getElementById('step1Sub').textContent=t.step1Sub;
+  document.getElementById('orUpload').textContent=t.orUpload;
+  document.getElementById('step2Title').textContent=t.step2Title;
+  document.getElementById('step2Sub').textContent=t.step2Sub;
+  document.getElementById('rainfallLabel').textContent=t.rainfallLabel;
+  document.getElementById('rNone').textContent=t.rain.none;
+  document.getElementById('rLight').textContent=t.rain.light;
+  document.getElementById('rNormal').textContent=t.rain.normal;
+  document.getElementById('rHeavy').textContent=t.rain.heavy;
+  document.getElementById('humidityLabel').textContent=t.humidityLabel;
+  document.getElementById('symptomsLabel').textContent=t.symptomsLabel;
+  document.querySelectorAll('[data-chip]').forEach(s=> s.textContent = t.chips[s.dataset.chip]);
+  document.getElementById('analyzeBtn').textContent=t.analyze;
+  document.getElementById('footer').textContent=t.footer;
+  document.getElementById('expertWho').textContent=t.expertWho;
+  document.getElementById('expertRole').textContent=t.expertRole;
+  document.getElementById('expertNote').textContent=t.expertNote;
+  document.getElementById('callBtn').textContent=t.callBtn;
+  document.getElementById('disclaimer').textContent=t.disclaimer;
+  buildSamples();
+  if(document.getElementById('result').style.display==='block') renderResult();
+}
+
+document.getElementById('langSelect').addEventListener('change', e=>{
+  currentLang = e.target.value; applyLang();
+});
+
+document.getElementById('fileInput').addEventListener('change', e=>{
+  const file = e.target.files[0]; if(!file) return;
+  currentSampleId = null;
+  document.querySelectorAll('.sample').forEach(b=>b.classList.remove('active'));
+  const img = new Image();
+  img.onload = ()=>{
+    const c = document.createElement('canvas'); c.width=40; c.height=40;
+    const ctx = c.getContext('2d'); ctx.drawImage(img,0,0,40,40);
+    const data = ctx.getImageData(0,0,40,40).data;
+    let r=0,g=0,b=0,n=data.length/4, lastLum=0, edgeSum=0;
+    for(let i=0;i<data.length;i+=4){r+=data[i];g+=data[i+1];b+=data[i+2];}
+    r/=n; g/=n; b/=n;
+    for(let i=0;i<data.length;i+=4){
+      const lum=(data[i]+data[i+1]+data[i+2])/3;
+      edgeSum += Math.abs(lum-lastLum); lastLum=lum;
+    }
+    const yellow = clamp(((r+g)/2 - b) / 255 * 1.4);
+    const dark = clamp(1 - (r+g+b)/(3*180));
+    const quality = clamp(edgeSum / (n*40));
+    currentVisual = {yellow, spot: clamp(dark*0.6), wilt: clamp(yellow*0.4), holes: 0.05, quality: clamp(0.3+quality*3)};
+  };
+  img.src = URL.createObjectURL(file);
+  document.getElementById('fileStatus').textContent = 'Using: '+file.name;
+  document.getElementById('analyzeBtn').disabled=false;
+});
+
+document.getElementById('humidity').addEventListener('input', e=>{
+  document.getElementById('humidityVal').textContent = e.target.value;
+});
+document.querySelectorAll('.chip input').forEach(cb=>{
+  cb.addEventListener('change', ()=> cb.closest('.chip').classList.toggle('checked', cb.checked));
+});
+function clamp(x){return Math.max(0,Math.min(1,x));}
+
+function analyze(v, ctx){
+  const humid = ctx.humidity/100;
+  const bump = k => ctx.symptoms.has(k) ? 0.15 : 0;
+  let s = {
+    healthy: clamp(1 - Math.max(v.yellow,v.spot,v.wilt,v.holes) - (1-v.quality)*0.3),
+    blight: clamp(v.spot*0.65 + humid*0.3 + bump('spot')),
+    nutrient: clamp(v.yellow*0.6 - v.spot*0.4 + (ctx.rainfall==='normal'||ctx.rainfall==='heavy'?0.2:0) + bump('yellow')),
+    water: clamp(v.yellow*0.35 + v.wilt*0.4 + (ctx.rainfall==='none'?0.35:ctx.rainfall==='light'?0.15:0) + bump('wilt')),
+    pest: clamp(v.holes*0.75 + bump('holes'))
+  };
+  const entries = Object.entries(s).sort((a,b)=>b[1]-a[1]);
+  const [topKey, topScore] = entries[0];
+  const margin = topScore - entries[1][1];
+  const confidence = clamp(topScore * (0.5+0.5*v.quality) * (0.6+0.4*Math.min(margin/0.25,1)));
+  const needsExpert = confidence < 0.55 || v.quality < 0.4 || margin < 0.1;
+  return {topKey, confidence, needsExpert};
+}
+
+let lastCtx = null, lastVisual = null;
+function renderResult(){
+  const t = I18N[currentLang];
+  const r = analyze(lastVisual, lastCtx);
+  const meta = t.causes[r.topKey];
+  const rl = t.rainCtx[lastCtx.rainfall];
+  document.getElementById('vName').textContent = meta.name;
+  document.getElementById('vExplain').textContent = typeof meta.explain==='function' ? meta.explain(lastCtx, rl) : meta.explain;
+  document.getElementById('vActions').innerHTML = meta.actions.map(a=>`<li>${a}</li>`).join('');
+  const pct = Math.round(r.confidence*100);
+  document.getElementById('confbarfill').style.width = pct+'%';
+  document.getElementById('confLabel').textContent = t.confidence+': '+pct+'%';
+  const badge = document.getElementById('vBadge');
+  const bar = document.getElementById('confbar');
+  const expert = document.getElementById('expertCard');
+  if(r.needsExpert){
+    badge.textContent=t.badgeWarn; badge.className='badge warn';
+    bar.className='confbar warn'; expert.style.display='block';
+    document.getElementById('actionsLabel').textContent=t.actionsWarn;
+  } else {
+    badge.textContent=t.badgeOk; badge.className='badge ok';
+    bar.className='confbar'; expert.style.display='none';
+    document.getElementById('actionsLabel').textContent=t.actionsDefault;
+  }
+}
+
+document.getElementById('analyzeBtn').addEventListener('click', ()=>{
+  if(!currentVisual) return;
+  lastVisual = currentVisual;
+  lastCtx = {
+    rainfall: document.getElementById('rainfall').value,
+    humidity: +document.getElementById('humidity').value,
+    symptoms: new Set([...document.querySelectorAll('.chip input:checked')].map(c=>c.value))
+  };
+  renderResult();
+  document.getElementById('result').style.display='block';
+  document.getElementById('result').scrollIntoView({behavior:'smooth', block:'start'});
+});
+
+applyLang();
+</script>
+</body>
+</html>
