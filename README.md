@@ -27,7 +27,8 @@ bash
 pip install flask pillow
 python Krushi Sakha_html_python.py
 
-Then open http://localhost:5000
+For the Flask version: Run python Krushi Sakha_html_python.py, then open the local address shown in the terminal (usually http://127.0.0.1:5000/).
+
 
 Tech stack
 
@@ -40,8 +41,12 @@ Expert contact is a placeholder
 Guidance only, confirm with a local expert for costly decisions
 
 TEAM :
+
 MEMBER 1:SHUBHA KULKARNI
+
 MEMBER 2:ISHWARI SHETE
+
 MEMBER 3:DURVA SHINDE
+
 MEMBER 4:SHRADHA PHULARI
 
